@@ -1,0 +1,37 @@
+/* Style for the QR code container */
+.qr-code-container {
+    position: relative;
+    /* display: inline-block; */
+}
+
+/* Style for the QR code image */
+.qr-code-container img {
+    display: block;
+    transition: all 0.3s ease-in-out; /* Add transition for smooth animation */
+}
+
+/* Style for the button */
+.animated-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* background-color: #4CAF50;
+    color: white; */
+    /* padding: 10px 20px; */
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* Show the button and dull the QR code when hovering over the QR code container */
+.qr-code-container:hover .animated-button {
+    opacity: 1;
+}
+
+.qr-code-container:hover img {
+    opacity: 0.5; /* Dull the QR code by reducing its opacity */
+    filter: brightness(0.7); /* Optional: Further dull the QR code */
+}

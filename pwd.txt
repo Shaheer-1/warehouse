@@ -1,0 +1,7 @@
+D:\cakephp\warehouse\bin>cake users add_superuser
+Superuser added:
+Id: fccac639-f442-4391-a95c-ca69bb673be8
+Username: superadmin
+Email: superadmin@example.com
+Role: admin
+Password: eee5a8546ce5434e951c521a7d28f05d
