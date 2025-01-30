@@ -110,15 +110,18 @@ use QrCode\QrCode;
                             ];
                         ?>
                         <div class="qr-code-container">
-                        <?=
-                        $this->QrCode->image($url,$options) 
-                        ?>
-                        <button onclick="openModal()" class="button animated-button">view</button>
+                            <?=
+                            $this->QrCode->image($url,$options) 
+                            ?>
+                            <button id="<?=$cell->id?>" onclick="openModal(this)" data-id="<?=$url?>" data-heading="<?= $cell->cell_code?>" class="button animated-button">view</button>
+                        </div>
 
                     </td>
                     <td>
-                        <?= $this->QrCode->image($info,$options)?>
-                        <button onclick="openModal()" class="button animated-button">view</button>
+                        <div class="qr-code-container">
+                            <?= $this->QrCode->image($info,$options)?>
+                            <button id="<?="o_".$cell->id?>" onclick="openModal(this)" data-id="<?=$info?>" data-heading="<?= $cell->cell_code?>" class="button animated-button">view</button>
+                        </div>
                     </td>
                     <!-- <td><?= h($cell->created) ?></td> -->
                     <!-- <td><?= h($cell->modified) ?></td> -->
@@ -150,10 +153,8 @@ use QrCode\QrCode;
     <div class="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>
         <div id="printableContent">
-            <h3><?= $cell->rack_row->row_code." - ".$cell->cell_code ?></h3>
-            <?=
-                $this->QrCode->image($url,$options) 
-            ?>
+            <h3 id="modal_h"><?= $cell->rack_row->row_code." - ".$cell->cell_code ?></h3>
+            <div id="qrcode" style="width: 300px; margin: 0 auto; padding: 10px; text-align: center;"></div>
         </div>
         <button onclick="printModalContent()" class="button">Print</button>
     </div>
@@ -175,7 +176,7 @@ use QrCode\QrCode;
 .modal-content {
     background: #fff;
     padding: 20px;
-    width: 30%;
+    width: 40%;
     margin: 5% auto;
     text-align: center;
     border-radius: 5px;
@@ -190,12 +191,24 @@ use QrCode\QrCode;
 }
 </style>
 <script>
-function openModal() {
+function openModal(button) {
+    
+    console.log("Button Text:", button.innerText);
+    console.log("Button ID:", button.id);
+    console.log("Button Class:", button.className);
+    console.log("Custom Data Attribute:", button.dataset.id);
+
+    var qr = new QRCode(document.getElementById("qrcode"), {
+        text: button.dataset.id,
+    });
+    
+    document.getElementById("modal_h").innerHTML = button.dataset.heading;
     document.getElementById("printModal").style.display = "block";
 }
 
 function closeModal() {
     document.getElementById("printModal").style.display = "none";
+    document.getElementById("qrcode").innerHTML = '';
 }
 
 function printModalContent() {
@@ -208,3 +221,4 @@ function printModalContent() {
     location.reload(); // Restore the original page
 }
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
